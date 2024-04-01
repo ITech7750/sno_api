@@ -24,7 +24,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     // Для web приложения (Tomcat, Jackson) и для обработки JSON
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     // Безопасность
     implementation("org.springframework.boot:spring-boot-starter-security")
 
@@ -41,7 +41,7 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.security:spring-security-test")
+    //testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<KotlinCompile> {
