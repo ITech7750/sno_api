@@ -38,7 +38,7 @@ class FilesServiceImplementation(
         val existingFile = filesRepository.findById(fileId)
             .orElseThrow { EntityNotFoundException("File with ID $fileId not found") }
         existingFile.filePath = file.filePath
-        existingFile.lecture_id = file.lecture_id
+        existingFile.file_type= file.fileType.toString()
         val updatedFile = filesRepository.save(existingFile)
         return updatedFile.toDTO()
     }
@@ -71,7 +71,7 @@ class FilesServiceImplementation(
         val destFile = File(filePath)
         try {
             file.transferTo(destFile)
-            val filesEntity = FilesEntity(filePath = filePath, lecture_id = 0)
+            val filesEntity = FilesEntity(filePath = filePath, file_type = "")
             val savedFileEntity = filesRepository.save(filesEntity)
             return savedFileEntity.toDTO()
         } catch (e: IOException) {
@@ -81,10 +81,10 @@ class FilesServiceImplementation(
 
     // Utility methods to convert between DTO and Entity
     private fun FilesEntity.toDTO(): FilesDTO {
-        return FilesDTO(fileId = fileId, filePath = filePath, lecture_id = lecture_id)
+        return FilesDTO(fileId = fileId, filePath = filePath, fileType =  file_type)
     }
 
     private fun FilesDTO.toEntity(): FilesEntity {
-        return FilesEntity(fileId = fileId, filePath = filePath, lecture_id = lecture_id)
+        return FilesEntity(fileId = fileId, filePath = filePath, file_type = fileType.toString())
     }
 }

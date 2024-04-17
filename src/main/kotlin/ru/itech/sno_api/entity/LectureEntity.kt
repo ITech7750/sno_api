@@ -24,5 +24,8 @@ class LectureEntity(
     var summary: SummaryEntity,
     @OneToOne
     @JoinColumn(name = "forum_id")
-    var forum: ForumEntity
+    var forum: ForumEntity,
+    @OneToOne
+    @JoinColumn(name = "file_id")
+    var file: FilesEntity
 )

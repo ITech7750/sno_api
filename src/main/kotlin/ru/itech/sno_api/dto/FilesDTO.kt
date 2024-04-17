@@ -12,5 +12,5 @@ data class FilesDTO(
     val filePath: String,
 
     @Schema(description = "Лекция")
-    val lecture_id: Long
+    val fileType: String?
 )

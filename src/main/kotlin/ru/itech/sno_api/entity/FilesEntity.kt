@@ -12,6 +12,6 @@ data class FilesEntity(
     @Column(name = "file_path")
     var filePath: String,
 
-    @JoinColumn(name = "lecture_id")
-    var lecture_id: Long,
+    @JoinColumn(name = "file_type")
+    var file_type: String,
 )
