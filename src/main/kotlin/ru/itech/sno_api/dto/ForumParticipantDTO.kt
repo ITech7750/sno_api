@@ -9,5 +9,5 @@ data class ForumParticipantDTO(
     @Schema(description = "Форум")
     val forum: ForumDTO,
     @Schema(description = "Пользователь")
-    val user: UserDTO
+    val user: UserInfoDTO
 )

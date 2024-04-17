@@ -49,7 +49,7 @@ fun ForumTopicEntity.toDTO(): ForumTopicDTO {
     return ForumTopicDTO(
         topicId = topicId,
         title = title,
-        description = description,
+        description = description?:"",
         forum = forum.toDTO()
     )
 }

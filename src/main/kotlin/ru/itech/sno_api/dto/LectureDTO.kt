@@ -9,7 +9,7 @@ data class LectureDTO(
     @Schema(description = "Идентификатор лекции")
     val lectureId: Long,
     @Schema(description = "Лектор")
-    val lecturer: UserDTO,
+    val lecturer: UserInfoDTO,
     @Schema(description = "Название")
     val title: String,
     @Schema(description = "Описание")

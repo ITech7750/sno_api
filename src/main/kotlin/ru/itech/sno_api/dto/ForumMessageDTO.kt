@@ -10,7 +10,7 @@ data class ForumMessageDTO(
     @Schema(description = "Тема форума")
     val topic: ForumTopicDTO,
     @Schema(description = "Пользователь")
-    val user: UserDTO,
+    val user: UserInfoDTO,
     @Schema(description = "Идентификатор ответа")
     val replyId: Long,
     @Schema(description = "Текст сообщения")

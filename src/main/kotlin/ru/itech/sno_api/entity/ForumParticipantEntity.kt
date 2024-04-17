@@ -14,5 +14,5 @@ class ForumParticipantEntity(
     var forum: ForumEntity,
     @OneToOne
     @JoinColumn(name = "user_id")
-    var user: UserEntity
+    var user: UserInfoEntity
 )

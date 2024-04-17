@@ -7,9 +7,15 @@ class ForumEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "forum_id")
-    val forumId: Long,
-    @Column(name = "title")
+    var forumId: Long = 0,
+
+    @Column(name = "title", nullable = false, length = 255)
     var title: String,
-    @Column(name = "description")
+
+    @Column(name = "description", nullable = true, columnDefinition = "TEXT")
     var description: String
-)
+) {
+    override fun toString(): String {
+        return "ForumEntity(forumId=$forumId, title='$title', description=$description)"
+    }
+}

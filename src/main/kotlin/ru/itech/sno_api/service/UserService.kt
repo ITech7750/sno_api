@@ -1,22 +1,22 @@
 package ru.itech.sno_api.service
 
 import org.springframework.stereotype.Service
-import ru.itech.sno_api.dto.UserDTO
+import ru.itech.sno_api.dto.UserInfoDTO
 
 
 @Service
 interface UserService {
 
-    fun getAll(): List<UserDTO>
+    fun getAll(): List<UserInfoDTO>
 
-    fun getById(userId: Long): UserDTO
+    fun getById(userId: Long): UserInfoDTO
 
-    fun create(user: UserDTO): UserDTO
+    fun create(user: UserInfoDTO): UserInfoDTO
 
-    fun update(userId: Long, user: UserDTO): UserDTO
+    fun update(userId: Long, user: UserInfoDTO): UserInfoDTO
 
     fun delete(userId: Long)
 
-    fun getAllP(pageIndex: Int) : List<UserDTO>
+    fun getAllP(pageIndex: Int) : List<UserInfoDTO>
 
 }

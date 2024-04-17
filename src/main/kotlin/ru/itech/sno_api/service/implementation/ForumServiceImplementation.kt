@@ -4,13 +4,11 @@ import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import ru.itech.sno_api.dto.ForumDTO
 import ru.itech.sno_api.entity.ForumEntity
-import ru.itech.sno_api.service.ForumService
 import ru.itech.sno_api.repository.ForumRepository
+import ru.itech.sno_api.service.ForumService
 
 
 @Service
-
-
 class ForumServiceImplementation(
     private val forumRepository: ForumRepository
 ): ForumService {

@@ -12,7 +12,7 @@ class LectureEntity(
     val lectureId: Long,
     @OneToOne
     @JoinColumn(name = "lecturer_id")
-    var lecturer: UserEntity,
+    var lecturer: UserInfoEntity,
     @Column(name = "title")
     var title: String,
     @Column(name = "description")

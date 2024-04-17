@@ -4,14 +4,14 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "files")
-class FilesEntity(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+data class FilesEntity(
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "file_id")
-    val fileId: Long,
+    val fileId: Long? = null,
+
     @Column(name = "file_path")
     var filePath: String,
-    @OneToOne
+
     @JoinColumn(name = "lecture_id")
-    var lecture: LectureEntity
+    var lecture_id: Long,
 )

@@ -1,43 +1,57 @@
 package ru.itech.sno_api.controller
 
-import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.*
+import org.springframework.http.ResponseEntity
+import org.springframework.http.HttpStatus
+import org.springframework.web.multipart.MultipartFile
 import ru.itech.sno_api.dto.FilesDTO
 import ru.itech.sno_api.service.FilesService
 
 @RestController
 @RequestMapping("/api/v1/files")
-@Tag(
-    name = "Files API",
-    description = "Файлы"
-)
-class FilesController(
-    private val filesService: FilesService
-) {
+class FilesController(private val filesService: FilesService) {
 
-    @Operation(method = "Получение всех файлов")
     @GetMapping
-    fun getAll(): List<FilesDTO> =
-        filesService.getAll()
+    fun getAllFiles(): ResponseEntity<List<FilesDTO>> {
+        val files = filesService.getAll()
+        return ResponseEntity(files, HttpStatus.OK)
+    }
 
-    @Operation(method = "Получение файла по идентификатору")
     @GetMapping("/{fileId}")
-    fun getById(@PathVariable fileId: Long): FilesDTO =
-        filesService.getById(fileId)
+    fun getFileById(@PathVariable fileId: Long): ResponseEntity<FilesDTO> {
+        val file = filesService.getById(fileId)
+        return ResponseEntity(file, HttpStatus.OK)
+    }
 
-    @Operation(method = "Создание нового файла")
     @PostMapping
-    fun create(@RequestBody file: FilesDTO): FilesDTO =
-        filesService.create(file)
+    fun createFile(@RequestBody file: FilesDTO): ResponseEntity<FilesDTO> {
+        val createdFile = filesService.create(file)
+        return ResponseEntity(createdFile, HttpStatus.CREATED)
+    }
 
-    @Operation(method = "Обновление данных файла")
     @PutMapping("/{fileId}")
-    fun update(@PathVariable fileId: Long, @RequestBody file: FilesDTO): FilesDTO =
-        filesService.update(fileId, file)
+    fun updateFile(@PathVariable fileId: Long, @RequestBody file: FilesDTO): ResponseEntity<FilesDTO> {
+        val updatedFile = filesService.update(fileId, file)
+        return ResponseEntity(updatedFile, HttpStatus.OK)
+    }
 
-    @Operation(method = "Удаление файла")
     @DeleteMapping("/{fileId}")
-    fun delete(@PathVariable fileId: Long) =
+    fun deleteFile(@PathVariable fileId: Long): ResponseEntity<Void> {
         filesService.delete(fileId)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+    @GetMapping("/{fileId}/download")
+    fun downloadFile(@PathVariable fileId: Long): ResponseEntity<ByteArray> {
+        val fileContent = filesService.getFile(fileId)
+        return ResponseEntity(fileContent, HttpStatus.OK)
+    }
+
+    @PostMapping("/upload")
+    fun uploadFile(@RequestParam("file") file: MultipartFile): ResponseEntity<FilesDTO> {
+        val uploadedFile = filesService.uploadFile(file)
+        return ResponseEntity(uploadedFile, HttpStatus.CREATED)
+    }
+
+
 }

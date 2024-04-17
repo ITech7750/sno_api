@@ -1,25 +1,26 @@
 package ru.itech.sno_api.service.implementation
 
 import jakarta.persistence.EntityNotFoundException
-import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import ru.itech.sno_api.dto.OrganizationDTO
-import ru.itech.sno_api.dto.UserDTO
+import ru.itech.sno_api.dto.UserInfoDTO
 import ru.itech.sno_api.entity.OrganizationEntity
-import ru.itech.sno_api.entity.UserEntity
+import ru.itech.sno_api.entity.UserInfoEntity
 import ru.itech.sno_api.repository.UserRepository
 import ru.itech.sno_api.service.UserService
 import org.springframework.data.domain.PageRequest
+import ru.itech.sno_api.repository.OrganizationRepository
 
 @Service
 class UserServiceImplementation(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val organizationRepository: OrganizationRepository,
 ): UserService {
 
     /**
      * Получить всех пользователей
      */
-    override fun getAll(): List<UserDTO> {
+    override fun getAll(): List<UserInfoDTO> {
         return userRepository.findAll()
             .map { it.toDTO() }
     }
@@ -28,7 +29,7 @@ class UserServiceImplementation(
     /**
      * Получить всех пользователей по странице
      */
-    override fun getAllP(pageIndex: Int): List<UserDTO> {
+    override fun getAllP(pageIndex: Int): List<UserInfoDTO> {
         return userRepository.findByOrderByUserId(PageRequest.of(pageIndex,2))
             .map { it.toDTO() }
     }
@@ -37,7 +38,7 @@ class UserServiceImplementation(
     /**
      * Получить пользователя по идентификатору
      */
-    override fun getById(userId: Long): UserDTO {
+    override fun getById(userId: Long): UserInfoDTO {
         return userRepository.findById(userId)
             .orElseThrow { throw EntityNotFoundException("User with ID $userId not found") }
             .toDTO()
@@ -46,7 +47,7 @@ class UserServiceImplementation(
     /**
      * Создать нового пользователя
      */
-    override fun create(user: UserDTO): UserDTO {
+    override fun create(user: UserInfoDTO): UserInfoDTO {
         return userRepository.save(user.toEntity())
             .toDTO()
     }
@@ -54,22 +55,33 @@ class UserServiceImplementation(
     /**
      * Обновить данные пользователя
      */
-    override fun update(userId: Long, user: UserDTO): UserDTO {
+    override fun update(userId: Long, user: UserInfoDTO): UserInfoDTO {
         val existingUser = userRepository.findById(userId)
-            .orElseThrow { throw EntityNotFoundException("User with ID $userId not found") }
+            .orElseThrow { EntityNotFoundException("User with ID $userId not found") }
 
-        existingUser.firstName = user.firstName
-        existingUser.lastName = user.lastName
-        existingUser.middleName = user.middleName
-        existingUser.email = user.email
-        existingUser.role = user.role
-        existingUser.isStudentMifi = user.isStudentMifi
-        existingUser.organization = user.organization.toEntity()
-        existingUser.twoFactorAuthEnabled = user.twoFactorAuthEnabled
+        existingUser.apply {
+            firstName = user.firstName
+            lastName = user.lastName
+            middleName = user.middleName
+            email = user.email
+            role = user.role
+            isStudentMifi = user.isStudentMifi
+            // Проверяем, что organizationId не null
+            user.organizationId?.let { organizationId ->
+                organization = organization?.let {
+                    organizationRepository.findById(it.organizationId)
+                        .orElseThrow { EntityNotFoundException("Organization with ID $organizationId not found") }
+                }
+            }
+            twoFactorAuthEnabled = user.twoFactorAuthEnabled
+        }
 
-        return userRepository.save(existingUser)
-            .toDTO()
+        return userRepository.save(existingUser).toDTO()
     }
+
+
+
+
 
     /**
      * Удалить пользователя
@@ -80,33 +92,37 @@ class UserServiceImplementation(
 }
 
 
-fun UserEntity.toDTO(): UserDTO {
-    return UserDTO(
-        userId = userId,
-        firstName = firstName,
-        lastName = lastName,
-        middleName = middleName,
-        email = email,
-        role = role,
-        isStudentMifi = isStudentMifi,
-        organization = organization.toDTO(),
-        twoFactorAuthEnabled = twoFactorAuthEnabled
+fun UserInfoEntity.toDTO(): UserInfoDTO {
+    return UserInfoDTO(
+        firstName = this.firstName,
+        lastName = this.lastName,
+        middleName = this.middleName,
+        login = this.login,
+        password = this.password,
+        email = this.email,
+        role = this.role,
+        isStudentMifi = this.isStudentMifi,
+        organizationId = this.organization,
+        twoFactorAuthEnabled = this.twoFactorAuthEnabled
     )
 }
 
-fun UserDTO.toEntity(): UserEntity {
-    return UserEntity(
-        userId = userId,
-        firstName = firstName,
-        lastName = lastName,
-        middleName = middleName,
-        email = email,
-        role = role,
-        isStudentMifi = isStudentMifi,
-        organization = organization.toEntity(),
-        twoFactorAuthEnabled = twoFactorAuthEnabled
+
+fun UserInfoDTO.toEntity(): UserInfoEntity {
+    return UserInfoEntity(
+        firstName = this.firstName,
+        lastName = this.lastName,
+        middleName = this.middleName,
+        login = this.login,
+        password = this.password,
+        email = this.email,
+        role = this.role,
+        isStudentMifi = this.isStudentMifi,
+        organization = this.organizationId,
+        twoFactorAuthEnabled = this.twoFactorAuthEnabled
     )
 }
+
 
 fun OrganizationEntity.toDTO(): OrganizationDTO {
     return OrganizationDTO(

@@ -26,10 +26,10 @@ dependencies {
     // Для web приложения (Tomcat, Jackson) и для обработки JSON
     implementation("org.springframework.boot:spring-boot-starter-web")
     // Безопасность
-    implementation("org.springframework.boot:spring-boot-starter-security")
+    //implementation("org.springframework.boot:spring-boot-starter-security")
 
 
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    //implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
 
     //  Базовые пакеты
@@ -48,6 +48,12 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs += "-Xjsr305=strict"
         jvmTarget = "17"
+    }
+}
+
+sourceSets {
+    main {
+        kotlin.srcDirs("src/main/kotlin")
     }
 }
 

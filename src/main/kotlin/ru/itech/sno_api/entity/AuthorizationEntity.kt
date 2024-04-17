@@ -11,7 +11,7 @@ class AuthorizationEntity(
     val authId: Long,
     @OneToOne
     @JoinColumn(name = "user_id")
-    var user: UserEntity,
+    var user: UserInfoEntity,
     @Column(name = "token")
     var token: String,
     @Column(name = "two_factor_enabled")

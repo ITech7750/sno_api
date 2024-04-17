@@ -1,60 +1,90 @@
 package ru.itech.sno_api.service.implementation
 
 import jakarta.persistence.EntityNotFoundException
+import jakarta.transaction.Transactional
+import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import ru.itech.sno_api.dto.FilesDTO
 import ru.itech.sno_api.entity.FilesEntity
-import org.springframework.stereotype.Service
-import ru.itech.sno_api.service.FilesService
 import ru.itech.sno_api.repository.FilesRepository
+import ru.itech.sno_api.service.FilesService
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
+
 @Service
+@Transactional
 class FilesServiceImplementation(
     private val filesRepository: FilesRepository
-): FilesService {
+) : FilesService {
 
     override fun getAll(): List<FilesDTO> {
-        return filesRepository.findAll()
-            .map { it.toDTO() }
+        return filesRepository.findAll().map { it.toDTO() }
     }
 
     override fun getById(fileId: Long): FilesDTO {
-        return filesRepository.findById(fileId)
-            .orElseThrow { throw EntityNotFoundException("File with ID $fileId not found") }
-            .toDTO()
+        val fileEntity = filesRepository.findById(fileId)
+            .orElseThrow { EntityNotFoundException("File with ID $fileId not found") }
+        return fileEntity.toDTO()
     }
 
     override fun create(file: FilesDTO): FilesDTO {
-        return filesRepository.save(file.toEntity())
-            .toDTO()
+        val fileEntity = file.toEntity()
+        val savedFileEntity = filesRepository.save(fileEntity)
+        return savedFileEntity.toDTO()
     }
 
     override fun update(fileId: Long, file: FilesDTO): FilesDTO {
         val existingFile = filesRepository.findById(fileId)
-            .orElseThrow { throw EntityNotFoundException("File with ID $fileId not found") }
-
+            .orElseThrow { EntityNotFoundException("File with ID $fileId not found") }
         existingFile.filePath = file.filePath
-        existingFile.lecture = file.lecture.toEntity()
-
-        return filesRepository.save(existingFile)
-            .toDTO()
+        existingFile.lecture_id = file.lecture_id
+        val updatedFile = filesRepository.save(existingFile)
+        return updatedFile.toDTO()
     }
 
     override fun delete(fileId: Long) {
+        if (!filesRepository.existsById(fileId)) {
+            throw EntityNotFoundException("File with ID $fileId not found")
+        }
         filesRepository.deleteById(fileId)
     }
-}
 
-fun FilesEntity.toDTO(): FilesDTO {
-    return FilesDTO(
-        fileId = fileId,
-        filePath = filePath,
-        lecture = lecture.toDTO()
-    )
-}
+    override fun getFile(fileId: Long): ByteArray {
+        val fileEntity = filesRepository.findById(fileId)
+            .orElseThrow { EntityNotFoundException("File with ID $fileId not found") }
+        val file = File(fileEntity.filePath)
+        return file.readBytes() // This assumes the file can fit into memory
+    }
 
-fun FilesDTO.toEntity(): FilesEntity {
-    return FilesEntity(
-        fileId = fileId,
-        filePath = filePath,
-        lecture = lecture.toEntity()
-    )
+    override fun uploadFile(file: MultipartFile): FilesDTO {
+        if (file.isEmpty) {
+            throw IllegalArgumentException("Uploaded file is empty")
+        }
+
+        val directory = File("uploads")
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+
+        val filePath = "${directory.absolutePath}/${file.originalFilename}"
+        val destFile = File(filePath)
+        try {
+            file.transferTo(destFile)
+            val filesEntity = FilesEntity(filePath = filePath, lecture_id = 0)
+            val savedFileEntity = filesRepository.save(filesEntity)
+            return savedFileEntity.toDTO()
+        } catch (e: IOException) {
+            throw RuntimeException("Failed to upload file: ${e.message}", e)
+        }
+    }
+
+    // Utility methods to convert between DTO and Entity
+    private fun FilesEntity.toDTO(): FilesDTO {
+        return FilesDTO(fileId = fileId, filePath = filePath, lecture_id = lecture_id)
+    }
+
+    private fun FilesDTO.toEntity(): FilesEntity {
+        return FilesEntity(fileId = fileId, filePath = filePath, lecture_id = lecture_id)
+    }
 }

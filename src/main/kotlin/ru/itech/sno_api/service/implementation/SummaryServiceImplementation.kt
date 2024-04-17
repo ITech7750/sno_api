@@ -4,8 +4,8 @@ import jakarta.persistence.EntityNotFoundException
 import ru.itech.sno_api.dto.SummaryDTO
 import ru.itech.sno_api.entity.SummaryEntity
 import org.springframework.stereotype.Service
-import ru.itech.sno_api.service.SummaryService
 import ru.itech.sno_api.repository.SummaryRepository
+import ru.itech.sno_api.service.SummaryService
 
 @Service
 class SummaryServiceImplementation(

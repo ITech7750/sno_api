@@ -15,7 +15,7 @@ class ForumMessageEntity(
     var topic: ForumTopicEntity,
     @OneToOne
     @JoinColumn(name = "user_id")
-    var user: UserEntity,
+    var user: UserInfoEntity,
     @Column(name = "reply_id")
     var replyId: Long,
     @Column(name = "message_text")

@@ -8,12 +8,19 @@ class ForumTopicEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "topic_id")
-    val topicId: Long,
-    @OneToOne
+    var topicId: Long = 0,
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "forum_id")
     var forum: ForumEntity,
-    @Column(name = "title")
+
+    @Column(name = "title", nullable = false, length = 255)
     var title: String,
-    @Column(name = "description")
-    var description: String
-)
+
+    @Column(name = "description", nullable = true, columnDefinition = "TEXT")
+    var description: String?
+) {
+    override fun toString(): String {
+        return "ForumTopicEntity(topicId=$topicId, forum=$forum, title='$title', description=$description)"
+    }
+}

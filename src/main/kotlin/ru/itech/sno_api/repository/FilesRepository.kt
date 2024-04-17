@@ -1,6 +1,7 @@
 package ru.itech.sno_api.repository
 
-import org.springframework.data.repository.CrudRepository
+
+import org.springframework.data.jpa.repository.JpaRepository
 import ru.itech.sno_api.entity.FilesEntity
 
-interface FilesRepository : CrudRepository<FilesEntity, Long>
+interface FilesRepository : JpaRepository<FilesEntity, Long>
