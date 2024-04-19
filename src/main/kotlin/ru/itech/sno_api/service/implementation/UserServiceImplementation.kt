@@ -17,6 +17,8 @@ class UserServiceImplementation(
     private val organizationRepository: OrganizationRepository,
 ): UserService {
 
+
+
     /**
      * Получить всех пользователей
      */

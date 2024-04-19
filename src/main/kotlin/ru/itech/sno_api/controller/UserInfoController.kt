@@ -2,10 +2,20 @@ package ru.itech.sno_api.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+
 import org.springframework.web.bind.annotation.*
+import ru.itech.sno_api.core.JwtHelper
+
+
 import ru.itech.sno_api.dto.UserInfoDTO
 import ru.itech.sno_api.service.UserService
 
+
+
+data class Token(
+    val access_token: String,
+    val refresh_token: String,
+)
 @RestController
 @RequestMapping("/api/v1/users")
 @Tag(
@@ -13,7 +23,8 @@ import ru.itech.sno_api.service.UserService
     description = "Пользователи"
 )
 class UserInfoController(
-    private val userService: UserService
+    private val userService: UserService,
+    //private val jwtHelper: JwtHelper
 ) {
 
     @Operation(method = "Получение всех пользователей")

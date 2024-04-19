@@ -26,10 +26,12 @@ dependencies {
     // Для web приложения (Tomcat, Jackson) и для обработки JSON
     implementation("org.springframework.boot:spring-boot-starter-web")
     // Безопасность
-    //implementation("org.springframework.boot:spring-boot-starter-security")
-    //implementation("com.auth0:java-jwt:3.18.2")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
-
+    // Jwt
+    implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+    implementation("io.jsonwebtoken:jjwt-impl:0.12.3")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.12.3")
     //  Базовые пакеты
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
