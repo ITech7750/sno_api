@@ -6,10 +6,8 @@ import ru.itech.sno_api.entity.UserEntity
 import ru.itech.sno_api.entity.UserInfoEntity
 import java.util.*
 
-interface UserRepository : CrudRepository<UserInfoEntity, Long> {
-    fun findByEmail(email: String): Optional<UserInfoEntity>
+interface UserInfoRepository : CrudRepository<UserInfoEntity, Long> {
 
-    fun findByLogin(login: String): Optional<UserEntity>
 
     fun findByOrderByUserId(pageable: Pageable): List<UserInfoEntity>
 

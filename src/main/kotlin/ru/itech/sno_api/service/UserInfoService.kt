@@ -5,7 +5,7 @@ import ru.itech.sno_api.dto.UserInfoDTO
 
 
 @Service
-interface UserService {
+interface UserInfoService {
 
     fun getAll(): List<UserInfoDTO>
 

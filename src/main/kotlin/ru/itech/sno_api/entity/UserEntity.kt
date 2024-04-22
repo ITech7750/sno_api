@@ -9,9 +9,9 @@ data class UserEntity(
     val userId: Long = 0,
 
     @Column(unique = true)
-    val login: String,
+    var login: String,
 
-    val password: String,
+    var password: String,
 
-    val email: String
+    var email: String
 )

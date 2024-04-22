@@ -18,15 +18,6 @@ data class UserInfoEntity(
     @Column(name = "middle_name")
     var middleName: String?,
 
-    @Column(name = "login")
-    val login: String,
-
-    @Column(name = "password")
-    val password: String,
-
-    @Column(name = "email")
-    var email: String,
-
     @Column(name = "role")
     var role: String,
 

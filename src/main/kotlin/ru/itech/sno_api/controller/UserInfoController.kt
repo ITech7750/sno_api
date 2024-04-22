@@ -8,7 +8,7 @@ import ru.itech.sno_api.core.JwtHelper
 
 
 import ru.itech.sno_api.dto.UserInfoDTO
-import ru.itech.sno_api.service.UserService
+import ru.itech.sno_api.service.UserInfoService
 
 
 
@@ -17,14 +17,13 @@ data class Token(
     val refresh_token: String,
 )
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/users")
 @Tag(
     name = "User API",
     description = "Пользователи"
 )
 class UserInfoController(
-    private val userService: UserService,
-    //private val jwtHelper: JwtHelper
+    private val userService: UserInfoService,
 ) {
 
     @Operation(method = "Получение всех пользователей")

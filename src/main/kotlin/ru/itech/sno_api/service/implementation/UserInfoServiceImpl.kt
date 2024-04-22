@@ -6,16 +6,19 @@ import ru.itech.sno_api.dto.OrganizationDTO
 import ru.itech.sno_api.dto.UserInfoDTO
 import ru.itech.sno_api.entity.OrganizationEntity
 import ru.itech.sno_api.entity.UserInfoEntity
-import ru.itech.sno_api.repository.UserRepository
-import ru.itech.sno_api.service.UserService
+import ru.itech.sno_api.repository.UserInfoRepository
+import ru.itech.sno_api.service.UserInfoService
 import org.springframework.data.domain.PageRequest
+import org.springframework.security.crypto.password.PasswordEncoder
+import ru.itech.sno_api.dto.UserDTO
+import ru.itech.sno_api.entity.UserEntity
 import ru.itech.sno_api.repository.OrganizationRepository
 
 @Service
-class UserServiceImplementation(
-    private val userRepository: UserRepository,
+class UserInfoServiceImplementation(
+    private val userRepository: UserInfoRepository,
     private val organizationRepository: OrganizationRepository,
-): UserService {
+): UserInfoService {
 
 
 
@@ -65,7 +68,6 @@ class UserServiceImplementation(
             firstName = user.firstName
             lastName = user.lastName
             middleName = user.middleName
-            email = user.email
             role = user.role
             isStudentMifi = user.isStudentMifi
             // Проверяем, что organizationId не null
@@ -99,9 +101,6 @@ fun UserInfoEntity.toDTO(): UserInfoDTO {
         firstName = this.firstName,
         lastName = this.lastName,
         middleName = this.middleName,
-        login = this.login,
-        password = this.password,
-        email = this.email,
         role = this.role,
         isStudentMifi = this.isStudentMifi,
         organizationId = this.organization,
@@ -110,14 +109,13 @@ fun UserInfoEntity.toDTO(): UserInfoDTO {
 }
 
 
+
+
 fun UserInfoDTO.toEntity(): UserInfoEntity {
     return UserInfoEntity(
         firstName = this.firstName,
         lastName = this.lastName,
         middleName = this.middleName,
-        login = this.login,
-        password = this.password,
-        email = this.email,
         role = this.role,
         isStudentMifi = this.isStudentMifi,
         organization = this.organizationId,

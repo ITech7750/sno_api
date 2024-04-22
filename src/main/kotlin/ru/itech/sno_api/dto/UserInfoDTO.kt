@@ -15,15 +15,6 @@ data class UserInfoDTO(
     @Schema(description = "User middle name", example = "Michael")
     val middleName: String?,
 
-    @Schema(description = "User login", example = "john_doe")
-    val login: String,
-
-    @Schema(description = "User password", example = "password123")
-    val password: String,
-
-    @Schema(description = "User email", example = "john.doe@example.com")
-    val email: String,
-
     @Schema(description = "User role", example = "admin")
     val role: String,
 
