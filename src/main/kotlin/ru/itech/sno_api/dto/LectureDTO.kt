@@ -31,7 +31,7 @@ fun LectureEntity.toDTO(): LectureDTO {
         lecturer = lecturer.toDTO(),
         title = title,
         description = description,
-        date = date,
+        date = date!!,
         summary = summary.toDTO(),
         forum = forum.toDTO(),
         file = file.toDTO()
