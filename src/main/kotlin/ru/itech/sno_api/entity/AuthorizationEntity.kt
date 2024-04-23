@@ -8,12 +8,12 @@ class AuthorizationEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "auth_id")
-    val authId: Long,
+    val authId: Long = 0,
     @OneToOne
     @JoinColumn(name = "user_id")
-    var user: UserInfoEntity,
+    var user: UserInfoEntity? = null,
     @Column(name = "token")
-    var token: String,
+    var token: String = "",
     @Column(name = "two_factor_enabled")
-    var twoFactorEnabled: Boolean
+    var twoFactorEnabled: Boolean = false
 )

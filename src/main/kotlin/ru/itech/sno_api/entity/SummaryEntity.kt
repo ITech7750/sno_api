@@ -8,9 +8,9 @@ class SummaryEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "summary_id")
-    val summaryId: Long,
+    val summaryId: Long = 0,
     @Column(name = "title")
-    var title: String,
+    var title: String = "",
     @Column(name = "description")
-    var description: String
+    var description: String = ""
 )

@@ -10,24 +10,24 @@ data class UserInfoEntity(
     val userId: Long? = null,
 
     @Column(name = "first_name")
-    var firstName: String,
+    var firstName: String = "",
 
     @Column(name = "last_name")
-    var lastName: String,
+    var lastName: String = "",
 
     @Column(name = "middle_name")
-    var middleName: String?,
+    var middleName: String? = null,
 
     @Column(name = "role")
-    var role: String,
+    var role: String = "",
 
     @Column(name = "is_student_mifi")
-    var isStudentMifi: Boolean,
+    var isStudentMifi: Boolean = false,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id")
     var organization: OrganizationEntity? = null,
 
     @Column(name = "two_factor_auth_enabled")
-    var twoFactorAuthEnabled: Boolean
+    var twoFactorAuthEnabled: Boolean = false
 )

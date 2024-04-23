@@ -16,6 +16,7 @@ data class Token(
     val access_token: String,
     val refresh_token: String,
 )
+
 @RestController
 @RequestMapping("/api/users")
 @Tag(

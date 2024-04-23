@@ -3,7 +3,9 @@ package ru.itech.sno_api.service.implementation
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import ru.itech.sno_api.dto.ForumDTO
+import ru.itech.sno_api.dto.toEntity
 import ru.itech.sno_api.entity.ForumEntity
+import ru.itech.sno_api.entity.toDTO
 import ru.itech.sno_api.repository.ForumRepository
 import ru.itech.sno_api.service.ForumService
 
@@ -46,18 +48,3 @@ class ForumServiceImplementation(
 }
 
 
-fun ForumEntity.toDTO(): ForumDTO {
-    return ForumDTO(
-        forumId = forumId,
-        title = title,
-        description = description
-    )
-}
-
-fun ForumDTO.toEntity(): ForumEntity {
-    return ForumEntity(
-        forumId = forumId,
-        title = title,
-        description = description
-    )
-}

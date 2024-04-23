@@ -2,6 +2,7 @@ package ru.itech.sno_api.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
 import ru.itech.sno_api.entity.OrganizationEntity
+import ru.itech.sno_api.entity.UserInfoEntity
 
 
 @Schema(description = "User Information Data Transfer Object")
@@ -27,3 +28,8 @@ data class UserInfoDTO(
     @Schema(description = "Whether two-factor authentication is enabled for the user", example = "true")
     val twoFactorAuthEnabled: Boolean
 )
+
+
+
+
+

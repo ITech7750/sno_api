@@ -3,7 +3,9 @@ package ru.itech.sno_api.service.implementation
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import ru.itech.sno_api.dto.AuthorizationDTO
+import ru.itech.sno_api.dto.toDTO
 import ru.itech.sno_api.entity.AuthorizationEntity
+import ru.itech.sno_api.entity.toEntity
 import ru.itech.sno_api.repository.AuthorizationRepository
 import ru.itech.sno_api.service.AuthorizationService
 
@@ -48,7 +50,7 @@ class AuthorizationServiceImplementation(
 fun AuthorizationEntity.toDTO(): AuthorizationDTO {
     return AuthorizationDTO(
         authId = authId,
-        user = user.toDTO(),
+        user = user!!.toDTO(),
         token = token,
         twoFactorEnabled = twoFactorEnabled
     )

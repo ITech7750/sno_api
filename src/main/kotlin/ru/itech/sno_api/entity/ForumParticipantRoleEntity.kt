@@ -8,10 +8,10 @@ class ForumParticipantRoleEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
-    var roleId: Long,
+    var roleId: Long = 0,
     @OneToOne
     @JoinColumn(name = "participant_id")
-    var participant: ForumParticipantEntity,
+    var participant: ForumParticipantEntity = ForumParticipantEntity(),
     @Column(name = "role_name")
-    var roleName: String
+    var roleName: String = ""
 )

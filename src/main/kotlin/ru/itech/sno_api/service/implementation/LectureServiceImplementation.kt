@@ -6,12 +6,13 @@ import org.springframework.data.domain.PageRequest
 import ru.itech.sno_api.dto.LectureDTO
 import ru.itech.sno_api.entity.LectureEntity
 import org.springframework.stereotype.Service
-import ru.itech.sno_api.dto.ForumDTO
-import ru.itech.sno_api.dto.SummaryDTO
-import ru.itech.sno_api.entity.ForumEntity
-import ru.itech.sno_api.entity.SummaryEntity
+import ru.itech.sno_api.dto.toDTO
+import ru.itech.sno_api.dto.toEntity
+import ru.itech.sno_api.entity.toEntity
+
 import ru.itech.sno_api.service.LectureService
 import ru.itech.sno_api.repository.LectureRepository
+
 
 @Service
 class LectureServiceImplementation(
@@ -60,29 +61,11 @@ class LectureServiceImplementation(
     }
 }
 
-fun LectureEntity.toDTO(): LectureDTO {
-    return LectureDTO(
-        lectureId = lectureId,
-        lecturer = lecturer.toDTO(),
-        title = title,
-        description = description,
-        date = date,
-        summary = summary.toDTO(),
-        forum = forum.toDTO()
-    )
-}
 
-fun LectureDTO.toEntity(): LectureEntity {
-    return LectureEntity(
-        lectureId = lectureId,
-        lecturer = lecturer.toEntity(),
-        title = title,
-        description = description,
-        date = date,
-        summary = summary.toEntity(),
-        forum = forum.toEntity()
-    )
-}
+
+
+
+
 
 
 

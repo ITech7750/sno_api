@@ -73,7 +73,7 @@ class UserInfoServiceImplementation(
             // Проверяем, что organizationId не null
             user.organizationId?.let { organizationId ->
                 organization = organization?.let {
-                    organizationRepository.findById(it.organizationId)
+                    organizationRepository.findById(it.organizationId?:0)
                         .orElseThrow { EntityNotFoundException("Organization with ID $organizationId not found") }
                 }
             }
@@ -96,37 +96,11 @@ class UserInfoServiceImplementation(
 }
 
 
-fun UserInfoEntity.toDTO(): UserInfoDTO {
-    return UserInfoDTO(
-        firstName = this.firstName,
-        lastName = this.lastName,
-        middleName = this.middleName,
-        role = this.role,
-        isStudentMifi = this.isStudentMifi,
-        organizationId = this.organization,
-        twoFactorAuthEnabled = this.twoFactorAuthEnabled
-    )
-}
-
-
-
-
-fun UserInfoDTO.toEntity(): UserInfoEntity {
-    return UserInfoEntity(
-        firstName = this.firstName,
-        lastName = this.lastName,
-        middleName = this.middleName,
-        role = this.role,
-        isStudentMifi = this.isStudentMifi,
-        organization = this.organizationId,
-        twoFactorAuthEnabled = this.twoFactorAuthEnabled
-    )
-}
 
 
 fun OrganizationEntity.toDTO(): OrganizationDTO {
     return OrganizationDTO(
-        organizationId = organizationId,
+        organizationId = organizationId?:0,
         university = university,
         faculty = faculty,
         groupName = groupName,
@@ -143,3 +117,28 @@ fun OrganizationDTO.toEntity(): OrganizationEntity {
         isSoftDeleted = isSoftDeleted
     )
 }
+
+fun UserInfoEntity.toDTO(): UserInfoDTO {
+    return UserInfoDTO(
+        firstName = this.firstName,
+        lastName = this.lastName,
+        middleName = this.middleName,
+        role = this.role,
+        isStudentMifi = this.isStudentMifi,
+        organizationId = this.organization,
+        twoFactorAuthEnabled = this.twoFactorAuthEnabled
+    )
+}
+
+fun UserInfoDTO.toEntity(): UserInfoEntity {
+    return UserInfoEntity(
+        firstName = this.firstName,
+        lastName = this.lastName,
+        middleName = this.middleName,
+        role = this.role,
+        isStudentMifi = this.isStudentMifi,
+        organization = this.organizationId,
+        twoFactorAuthEnabled = this.twoFactorAuthEnabled
+    )
+}
+

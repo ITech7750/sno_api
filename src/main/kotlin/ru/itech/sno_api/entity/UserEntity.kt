@@ -1,5 +1,6 @@
 package ru.itech.sno_api.entity
 import jakarta.persistence.*
+import ru.itech.sno_api.dto.UserInfoDTO
 
 @Entity
 @Table(name = "user_table")
@@ -9,9 +10,10 @@ data class UserEntity(
     val userId: Long = 0,
 
     @Column(unique = true)
-    var login: String,
+    var login: String = "",
 
-    var password: String,
+    var password: String = "",
 
-    var email: String
+    var email: String = ""
 )
+

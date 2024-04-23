@@ -2,7 +2,9 @@ package ru.itech.sno_api.service.implementation
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import ru.itech.sno_api.dto.ForumMessageDTO
+import ru.itech.sno_api.dto.toDTO
 import ru.itech.sno_api.entity.ForumMessageEntity
+import ru.itech.sno_api.entity.toEntity
 import ru.itech.sno_api.repository.ForumMessageRepository
 import ru.itech.sno_api.service.ForumMessageService
 
@@ -52,8 +54,8 @@ fun ForumMessageEntity.toDTO(): ForumMessageDTO {
         messageText = messageText,
         timestamp = timestamp,
         replyId = replyId,
-        topic = topic.toDTO(),
-        user = user.toDTO()
+        topic = topic!!.toDTO(),
+        user = user!!.toDTO()
     )
 }
 

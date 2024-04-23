@@ -3,7 +3,11 @@ package ru.itech.sno_api.service.implementation
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import ru.itech.sno_api.dto.ForumParticipantDTO
+import ru.itech.sno_api.dto.toDTO
+import ru.itech.sno_api.dto.toEntity
 import ru.itech.sno_api.entity.ForumParticipantEntity
+import ru.itech.sno_api.entity.toDTO
+import ru.itech.sno_api.entity.toEntity
 import ru.itech.sno_api.repository.ForumParticipantRepository
 import ru.itech.sno_api.service.ForumParticipantService
 

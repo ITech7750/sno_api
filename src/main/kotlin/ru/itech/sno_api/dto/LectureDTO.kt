@@ -1,6 +1,9 @@
 package ru.itech.sno_api.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
+import ru.itech.sno_api.entity.LectureEntity
+import ru.itech.sno_api.entity.toDTO
+import ru.itech.sno_api.service.implementation.toDTO
 import java.util.*
 
 
@@ -19,5 +22,20 @@ data class LectureDTO(
     @Schema(description = "Конспект")
     val summary: SummaryDTO,
     @Schema(description = "Форум")
-    val forum: ForumDTO
+    val forum: ForumDTO,
+    val file: FilesDTO
 )
+fun LectureEntity.toDTO(): LectureDTO {
+    return LectureDTO(
+        lectureId = lectureId,
+        lecturer = lecturer.toDTO(),
+        title = title,
+        description = description,
+        date = date,
+        summary = summary.toDTO(),
+        forum = forum.toDTO(),
+        file = file.toDTO()
+
+    )
+}
+

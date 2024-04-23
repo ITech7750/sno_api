@@ -12,13 +12,13 @@ class ForumTopicEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "forum_id")
-    var forum: ForumEntity,
+    var forum: ForumEntity = ForumEntity(),
 
     @Column(name = "title", nullable = false, length = 255)
-    var title: String,
+    var title: String = "",
 
     @Column(name = "description", nullable = true, columnDefinition = "TEXT")
-    var description: String?
+    var description: String? = null
 ) {
     override fun toString(): String {
         return "ForumTopicEntity(topicId=$topicId, forum=$forum, title='$title', description=$description)"
