@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import ru.itech.sno_api.gradle.Versions
 
 plugins {
     kotlin("jvm") version "1.9.23"
@@ -7,7 +8,7 @@ plugins {
 }
 
 group = "ru.itech"
-version = "0.0.1-SNAPSHOT"
+version = Versions.ROOT_PROJECT_VERSION
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -20,28 +21,29 @@ repositories {
     gradlePluginPortal()
 }
 
-
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("io.jsonwebtoken:jjwt-api:0.12.3")
-    implementation("io.jsonwebtoken:jjwt-impl:0.12.3")
-    implementation("io.jsonwebtoken:jjwt-jackson:0.12.3")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springdoc:springdoc-openapi-starter-common:2.1.0")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
-    runtimeOnly("com.mysql:mysql-connector-j")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    // testImplementation("org.springframework.security:spring-security-test")
+    Versions.apply {
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+        implementation("org.springframework.boot:spring-boot-starter-jdbc")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("io.jsonwebtoken:jjwt-api:$JJWT_API_VERSION")
+        implementation("io.jsonwebtoken:jjwt-impl:$JJWT_API_VERSION")
+        implementation("io.jsonwebtoken:jjwt-jackson:$JJWT_API_VERSION")
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.springdoc:springdoc-openapi-starter-common:${SPRING_DOC_VERSION}")
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${SPRING_DOC_VERSION}")
+        runtimeOnly("com.mysql:mysql-connector-j")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        // testImplementation("org.springframework.security:spring-security-test")
+    }
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17" // Ensure your Kotlin version supports targeting Java 21
+        jvmTarget = Versions.JVM_VERSION
     }
 }
 
@@ -53,4 +55,9 @@ sourceSets {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.jar {
+    archiveBaseName.set(rootProject.name)
+    archiveVersion.set("${rootProject.version}")
 }
