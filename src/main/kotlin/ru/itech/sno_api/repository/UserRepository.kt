@@ -9,8 +9,6 @@ import ru.itech.sno_api.entity.UserEntity
 import java.util.*
 
 @Repository
-@EnableJpaRepositories
-@EntityScan
 interface UserRepository : CrudRepository<UserEntity, Long> {
     fun findByEmail(email: String): Optional<UserEntity>
 
