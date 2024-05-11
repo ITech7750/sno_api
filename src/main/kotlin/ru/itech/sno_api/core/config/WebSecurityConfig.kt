@@ -1,7 +1,9 @@
 package ru.itech.sno_api.core.config
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -23,6 +25,10 @@ import java.util.Arrays
 @Configuration
 @Component
 open class WebSecurityConfig {
+
+    @Value("\${cors.frontend.host}")
+    private lateinit var frontendHost: String
+
     @Bean
     open fun provideAuthEntryPoint(): AuthenticationEntryPoint = AuthEntryPoint()
 
@@ -43,11 +49,18 @@ open class WebSecurityConfig {
     @Bean
     open fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:3000") // тут наш домен типо
-        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
-        configuration.allowedHeaders = listOf("*")
-        configuration.allowCredentials = true
-        configuration.maxAge = 3600L
+        configuration.apply {
+            addAllowedOrigin(frontendHost)
+
+            HttpMethod.values().forEach {
+                addAllowedMethod(it)
+            }
+
+            addAllowedHeader("*")
+
+            allowCredentials = true
+            maxAge = 3600L
+        }
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
